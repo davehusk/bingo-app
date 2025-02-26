@@ -2,102 +2,102 @@ const express = require("express");
 const fs = require("fs");
 const path = require("path");
 const ini = require("ini");
-const http = require("http");
-const socketIo = require("socket.io");
 
 const app = express();
-const server = http.createServer(app);
-const io = socketIo(server);
+const PORT = 3000;
 
 app.set("view engine", "ejs");
 app.use(express.static("public"));
 
-let bingoWords = {};
-const configPath = path.join(__dirname, "config/config.ini");
+let config = ini.parse(fs.readFileSync("./config/config.ini", "utf-8"));
+let calledNumbers = [];
+let cards = generateBingoCards(50);
 
-// Load Config
-function loadConfig() {
-    if (fs.existsSync(configPath)) {
-        bingoWords = ini.parse(fs.readFileSync(configPath, "utf-8"));
+function generateBingoCards(count) {
+    let cards = [];
+    for (let i = 0; i < count; i++) {
+        let card = generateUniqueCard();
+        cards.push({ id: i + 1, numbers: card });
     }
+    return cards;
 }
 
-loadConfig();
-
-// Generate a Unique Bingo Card
-function generateBingoCard() {
-    const columns = { B: [], I: [], N: [], G: [], O: [] };
-    const usedNumbers = new Set();
-
-    function getRandomNumber(min, max) {
-        let num;
-        do {
-            num = Math.floor(Math.random() * (max - min + 1)) + min;
-        } while (usedNumbers.has(num));
-        usedNumbers.add(num);
-        return num;
-    }
-
-    ["B", "I", "N", "G", "O"].forEach((letter, index) => {
-        for (let i = 0; i < 5; i++) {
-            let num = getRandomNumber(index * 15 + 1, (index + 1) * 15);
-            let word = bingoWords[num] || `Word ${num}`;
-            columns[letter].push({ num, word });
+function generateUniqueCard() {
+    let card = { B: [], I: [], N: [], G: [], O: [] };
+    let ranges = { B: [1, 15], I: [16, 30], N: [31, 45], G: [46, 60], O: [61, 75] };
+    
+    Object.keys(card).forEach(letter => {
+        let [min, max] = ranges[letter];
+        let nums = [];
+        while (nums.length < (letter === "N" ? 4 : 5)) {
+            let num = Math.floor(Math.random() * (max - min + 1)) + min;
+            if (!nums.includes(num)) nums.push(num);
         }
+        card[letter] = nums;
     });
 
-    return {
-        id: Math.random().toString(36).substr(2, 9), // Reference number
-        columns,
-    };
+    return card;
 }
 
-// API to Generate Bingo Cards
-app.get("/generate", (req, res) => {
-    res.json(generateBingoCard());
-});
+function checkBingo(card) {
+    let { B, I, N, G, O } = card.numbers;
+    let board = [B, I, N, G, O];
 
-// Render Bingo Caller
+    // Check horizontal (rows)
+    for (let row = 0; row < 5; row++) {
+        if (board.every(column => calledNumbers.includes(column[row]))) {
+            return true;
+        }
+    }
+
+    // Check vertical (columns)
+    for (let col = 0; col < 5; col++) {
+        if (board[col].every(num => calledNumbers.includes(num))) {
+            return true;
+        }
+    }
+
+    // Check diagonals
+    if (
+        calledNumbers.includes(B[0]) &&
+        calledNumbers.includes(I[1]) &&
+        calledNumbers.includes(G[3]) &&
+        calledNumbers.includes(O[4])
+    ) return true;
+
+    if (
+        calledNumbers.includes(O[0]) &&
+        calledNumbers.includes(G[1]) &&
+        calledNumbers.includes(I[3]) &&
+        calledNumbers.includes(B[4])
+    ) return true;
+
+    return false;
+}
+
+
 app.get("/", (req, res) => {
-    res.render("index");
+    res.render("index", { calledNumbers, cards, phrases: config["Numbers"] });
 });
 
-app.post("/verify-card", express.json(), (req, res) => {
-      const { cardId, numbers } = req.body;
-  
-      // Simulate a lookup (real implementation would use a database)
-      if (!cardId) return res.json({ valid: false });
-  
-      // Simple verification: All numbers should have been called
-      const allCalled = numbers.every(n => calledNumbers.has(n));
-      res.json({ valid: allCalled });
-  });
-  
+app.get("/call-number", (req, res) => {
+    let availableNumbers = [...Array(75).keys()].map(n => n + 1).filter(n => !calledNumbers.includes(n));
 
-app.get("/bingo-card", (req, res) => {
-      const card = generateBingoCard();
-      res.render("bingo-card", { card });
-  });
-  
+    if (availableNumbers.length === 0) return res.json({ number: null, phrase: "Game Over!", winners: [] });
 
-// Socket.io for Real-time Bingo Calling
-let calledNumbers = new Set();
-io.on("connection", (socket) => {
-    socket.emit("update", Array.from(calledNumbers));
+    let called = availableNumbers[Math.floor(Math.random() * availableNumbers.length)];
+    calledNumbers.push(called);
 
-    socket.on("call-number", () => {
-        let available = Array.from({ length: 75 }, (_, i) => i + 1).filter(n => !calledNumbers.has(n));
-        if (available.length > 0) {
-            let num = available[Math.floor(Math.random() * available.length)];
-            calledNumbers.add(num);
-            io.emit("update", Array.from(calledNumbers));
-        }
-    });
+    // Check for winning cards
+    let winners = cards.filter(card => checkBingo(card)).map(card => card.id);
 
-    socket.on("reset", () => {
-        calledNumbers.clear();
-        io.emit("update", []);
-    });
+    res.json({ number: called, phrase: config["Numbers"][called.toString()], winners });
 });
 
-server.listen(3000, () => console.log("Bingo server running on http://localhost:3000"));
+
+app.get("/print/:count", (req, res) => {
+    let count = Math.min(50, Math.max(1, parseInt(req.params.count)));
+    res.render("print", { cards: cards.slice(0, count) });
+});
+
+app.listen(PORT, () => console.log(`Server running at http://localhost:${PORT}`));

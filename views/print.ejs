@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Print Bingo Cards</title>
+    <link rel="stylesheet" href="/css/styles.css">
+</head>
+<body onload="window.print()">
+    <% cards.forEach(card => { %>
+        <div class="bingo-card">
+            <h2>Card #<%= card.id %></h2>
+            <table>
+                <thead>
+                    <tr><th>B</th><th>I</th><th>N</th><th>G</th><th>O</th></tr>
+                </thead>
+                <tbody>
+                    <% for (let i = 0; i < 5; i++) { %>
+                        <tr>
+                            <td><%= card.numbers.B[i] || "" %></td>
+                            <td><%= card.numbers.I[i] || "" %></td>
+                            <td><%= i === 2 ? "★" : card.numbers.N[i] || "" %></td>
+                            <td><%= card.numbers.G[i] || "" %></td>
+                            <td><%= card.numbers.O[i] || "" %></td>
+                        </tr>
+                    <% } %>
+                </tbody>
+            </table>
+        </div>
+    <% }) %>
+</body>
+</html>

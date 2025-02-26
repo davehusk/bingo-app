@@ -4,36 +4,23 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Bingo Caller</title>
-    <link rel="stylesheet" href="/css/style.css">
-    <script src="/socket.io/socket.io.js"></script>
+    <link rel="stylesheet" href="/css/styles.css">
 </head>
 <body>
     <div class="container">
         <h1>Bingo Caller</h1>
-        <div class="bingo-ball-container">
-            <div class="bingo-ball" id="current-number">?</div>
+        <div id="bingo-board">
+            <% for(let i = 1; i <= 75; i++) { %>
+                <div class="number <% if (calledNumbers.includes(i)) { %> called <% } %>">
+                    <%= i %>
+                </div>
+            <% } %>
         </div>
-        <button id="call-btn">Call Number</button>
-        <button id="reset-btn">Reset</button>
-        <ul id="called-numbers"></ul>
-        <a href="/bingo-card" target="_blank">Generate Bingo Card</a>
+        <button id="call-number">Call Next</button>
+        <h2 id="called-number"></h2>
+        <h3 id="phrase"></h3>
     </div>
 
-    <script>
-        const socket = io();
-        document.getElementById("call-btn").addEventListener("click", () => socket.emit("call-number"));
-        document.getElementById("reset-btn").addEventListener("click", () => socket.emit("reset"));
-
-        socket.on("update", (numbers) => {
-            const lastNumber = numbers.length ? numbers[numbers.length - 1] : "?";
-            document.getElementById("current-number").textContent = lastNumber;
-            document.getElementById("called-numbers").innerHTML = numbers.map(n => `<li>${n}</li>`).join("");
-
-            // Animation
-            const ball = document.getElementById("current-number");
-            ball.style.transform = "scale(1.5)";
-            setTimeout(() => ball.style.transform = "scale(1)", 300);
-        });
-    </script>
+    <script src="/js/bingo.js"></script>
 </body>
 </html>

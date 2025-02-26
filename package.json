@@ -9,6 +9,7 @@
       },
       "author": "Dave H",
       "license": "ISC",
-      "dependencies": {},
-      "devDependencies": {}
+      "dependencies": {
+            "socket.io": "^4.8.1"
+      }
 }
