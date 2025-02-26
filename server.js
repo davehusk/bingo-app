@@ -1,103 +1,64 @@
-const express = require("express");
-const fs = require("fs");
-const path = require("path");
-const ini = require("ini");
-
+const express = require('express');
+const fs = require('fs');
+const ini = require('ini');
+const path = require('path');
 const app = express();
-const PORT = 3000;
+const port = 3000;
 
-app.set("view engine", "ejs");
-app.use(express.static("public"));
+// Parse config
+const config = ini.parse(fs.readFileSync('./config/config.ini', 'utf-8'));
 
-let config = ini.parse(fs.readFileSync("./config/config.ini", "utf-8"));
-let calledNumbers = [];
-let cards = generateBingoCards(50);
+// Setup EJS
+app.set('view engine', 'ejs');
+app.set('views', path.join(__dirname, 'views'));
 
-function generateBingoCards(count) {
-    let cards = [];
-    for (let i = 0; i < count; i++) {
-        let card = generateUniqueCard();
-        cards.push({ id: i + 1, numbers: card });
-    }
-    return cards;
-}
+// Serve static files
+app.use(express.static('public'));
 
-function generateUniqueCard() {
-    let card = { B: [], I: [], N: [], G: [], O: [] };
-    let ranges = { B: [1, 15], I: [16, 30], N: [31, 45], G: [46, 60], O: [61, 75] };
-    
-    Object.keys(card).forEach(letter => {
-        let [min, max] = ranges[letter];
-        let nums = [];
-        while (nums.length < (letter === "N" ? 4 : 5)) {
-            let num = Math.floor(Math.random() * (max - min + 1)) + min;
-            if (!nums.includes(num)) nums.push(num);
+// Generate a bingo card
+function generateCard() {
+    const card = {};
+    'BINGO'.split('').forEach(letter => {
+        card[letter] = [];
+        const min = letter === 'B' ? 1 : letter === 'I' ? 16 : letter === 'N' ? 31 : letter === 'G' ? 46 : 61;
+        const max = min + 14;
+        while (card[letter].length < 5) {
+            const num = Math.floor(Math.random() * (max - min + 1)) + min;
+            if (!card[letter].includes(num)) card[letter].push(num);
         }
-        card[letter] = nums;
     });
-
+    card.N[2] = 'FREE'; // Set middle square to FREE
     return card;
 }
 
-function checkBingo(card) {
-    let { B, I, N, G, O } = card.numbers;
-    let board = [B, I, N, G, O];
+// Routes
+app.get('/', (req, res) => {
+    res.render('index', { bingoData: config.BINGO });
+});
 
-    // Check horizontal (rows)
-    for (let row = 0; row < 5; row++) {
-        if (board.every(column => calledNumbers.includes(column[row]))) {
-            return true;
-        }
+
+// In your server.js file, update the /print route:
+
+app.get('/print', (req, res) => {
+    const count = Math.min(50, parseInt(req.query.count) || 1);
+    const cards = Array.from({ length: count }, (_, i) => ({ id: i + 1, card: generateCard() }));
+    res.render('print', { cards, bingoData: config.BINGO });
+});
+
+
+app.get('/call', (req, res) => {
+    const availableNumbers = Object.keys(config.BINGO)
+        .filter(num => !req.query.called.split(',').includes(num));
+    if (availableNumbers.length === 0) {
+        return res.json({ done: true });
     }
-
-    // Check vertical (columns)
-    for (let col = 0; col < 5; col++) {
-        if (board[col].every(num => calledNumbers.includes(num))) {
-            return true;
-        }
-    }
-
-    // Check diagonals
-    if (
-        calledNumbers.includes(B[0]) &&
-        calledNumbers.includes(I[1]) &&
-        calledNumbers.includes(G[3]) &&
-        calledNumbers.includes(O[4])
-    ) return true;
-
-    if (
-        calledNumbers.includes(O[0]) &&
-        calledNumbers.includes(G[1]) &&
-        calledNumbers.includes(I[3]) &&
-        calledNumbers.includes(B[4])
-    ) return true;
-
-    return false;
-}
-
-
-app.get("/", (req, res) => {
-    res.render("index", { calledNumbers, cards, phrases: config["Numbers"] });
+    const number = availableNumbers[Math.floor(Math.random() * availableNumbers.length)];
+    res.json({
+        number: number,
+        phrase: config.BINGO[number]
+    });
 });
 
-app.get("/call-number", (req, res) => {
-    let availableNumbers = [...Array(75).keys()].map(n => n + 1).filter(n => !calledNumbers.includes(n));
-
-    if (availableNumbers.length === 0) return res.json({ number: null, phrase: "Game Over!", winners: [] });
-
-    let called = availableNumbers[Math.floor(Math.random() * availableNumbers.length)];
-    calledNumbers.push(called);
-
-    // Check for winning cards
-    let winners = cards.filter(card => checkBingo(card)).map(card => card.id);
-
-    res.json({ number: called, phrase: config["Numbers"][called.toString()], winners });
+app.listen(port, () => {
+    console.log(`Bingo app listening at http://localhost:${port}`);
 });
-
-
-app.get("/print/:count", (req, res) => {
-    let count = Math.min(50, Math.max(1, parseInt(req.params.count)));
-    res.render("print", { cards: cards.slice(0, count) });
-});
-
-app.listen(PORT, () => console.log(`Server running at http://localhost:${PORT}`));

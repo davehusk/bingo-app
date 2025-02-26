@@ -9,18 +9,36 @@
 <body>
     <div class="container">
         <h1>Bingo Caller</h1>
-        <div id="bingo-board">
-            <% for(let i = 1; i <= 75; i++) { %>
-                <div class="number <% if (calledNumbers.includes(i)) { %> called <% } %>">
-                    <%= i %>
+        <div class="game-area">
+            <div id="caller-board">
+                <% ['B', 'I', 'N', 'G', 'O'].forEach(letter => { %>
+                    <div class="column">
+                        <h2><%= letter %></h2>
+                        <% for (let i = 1; i <= 15; i++) { %>
+                            <% const num = i + (letter === 'B' ? 0 : letter === 'I' ? 15 : letter === 'N' ? 30 : letter === 'G' ? 45 : 60); %>
+                            <div class="number" id="<%= letter + num %>" data-number="<%= num %>" data-phrase="<%= bingoData[letter + num] %>">
+                                <%= num %>
+                            </div>
+                        <% } %>
+                    </div>
+                <% }) %>
+            </div>
+            <div class="control-panel">
+                <div id="current-call"></div>
+                <button id="call-number">Call Number</button>
+                <div id="print-controls">
+                    <input type="number" id="card-count" min="1" max="50" value="1">
+                    <button id="print-cards">Print Cards</button>
                 </div>
-            <% } %>
+                <!-- New section for recently called numbers -->
+                <div id="recent-calls">
+                    <h3>Recently Called Numbers</h3>
+                    <ul id="recent-calls-list"></ul>
+                </div>
+            </div>
         </div>
-        <button id="call-number">Call Next</button>
-        <h2 id="called-number"></h2>
-        <h3 id="phrase"></h3>
     </div>
-
+    <div id="tooltip" class="tooltip"></div>
     <script src="/js/bingo.js"></script>
 </body>
 </html>

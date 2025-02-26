@@ -6,27 +6,38 @@
     <title>Print Bingo Cards</title>
     <link rel="stylesheet" href="/css/styles.css">
 </head>
-<body onload="window.print()">
-    <% cards.forEach(card => { %>
+<body>
+    <% cards.forEach(cardData => { %>
         <div class="bingo-card">
-            <h2>Card #<%= card.id %></h2>
-            <table>
-                <thead>
-                    <tr><th>B</th><th>I</th><th>N</th><th>G</th><th>O</th></tr>
-                </thead>
-                <tbody>
+            <h2>BINGO</h2>
+            <div class="bingo-grid">
+                <% ['B', 'I', 'N', 'G', 'O'].forEach(letter => { %>
+                    <div class="bingo-header"><%= letter %></div>
+                <% }) %>
+                <% ['B', 'I', 'N', 'G', 'O'].forEach(letter => { %>
                     <% for (let i = 0; i < 5; i++) { %>
-                        <tr>
-                            <td><%= card.numbers.B[i] || "" %></td>
-                            <td><%= card.numbers.I[i] || "" %></td>
-                            <td><%= i === 2 ? "★" : card.numbers.N[i] || "" %></td>
-                            <td><%= card.numbers.G[i] || "" %></td>
-                            <td><%= card.numbers.O[i] || "" %></td>
-                        </tr>
+                        <div class="bingo-cell">
+                            <% if (letter === 'N' && i === 2) { %>
+                                <div class="free">FREE</div>
+                            <% } else { %>
+                                <% const num = cardData.card[letter][i]; %>
+                                <div class="number"><%= num %></div>
+                                <% if (bingoData && bingoData[letter + num]) { %>
+                                    <div class="phrase"><%= bingoData[letter + num] %></div>
+                                <% } %>
+                            <% } %>
+                        </div>
                     <% } %>
-                </tbody>
-            </table>
+                <% }) %>
+            </div>
+            <div class="card-id">Card #<%= cardData.id %></div>
         </div>
     <% }) %>
+    <script>
+        window.onload = () => {
+            window.print();
+            window.onafterprint = () => window.close();
+        }
+    </script>
 </body>
 </html>
