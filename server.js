@@ -31,6 +31,7 @@ function generateCard() {
     return card;
 }
 
+
 // Routes
 app.get('/', (req, res) => {
     res.render('index', { bingoData: config.BINGO });

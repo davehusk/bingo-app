@@ -5,57 +5,57 @@
       --text-color: #e0e0e0;
       --card-background: #1e1e1e;
       --hover-color: #3c3c3c;
-  }
-  
-  * {
+    }
+    
+    * {
       box-sizing: border-box;
       margin: 0;
       padding: 0;
-  }
-  
-  body {
+    }
+    
+    body {
       font-family: 'Arial', sans-serif;
       background-color: var(--background-color);
       color: var(--text-color);
       line-height: 1.6;
       padding: 20px;
-  }
-  
-  .container {
+    }
+    
+    .container {
       max-width: 1200px;
       margin: 0 auto;
-  }
-  
-  h1 {
+    }
+    
+    h1 {
       color: var(--secondary-color);
       text-align: center;
       margin-bottom: 20px;
-  }
-  
-  .game-area {
+    }
+    
+    .game-area {
       display: flex;
       gap: 20px;
-  }
-  
-  #caller-board {
+    }
+    
+    #caller-board {
       display: flex;
       flex-wrap: wrap;
       gap: 10px;
       flex: 3;
-  }
-  
-  .column {
+    }
+    
+    .column {
       flex: 1;
       min-width: 60px;
-  }
-  
-  .column h2 {
+    }
+    
+    .column h2 {
       text-align: center;
       margin-bottom: 10px;
       color: var(--secondary-color);
-  }
-  
-  .number {
+    }
+    
+    .number {
       background-color: var(--primary-color);
       border: 1px solid var(--secondary-color);
       color: var(--text-color);
@@ -65,25 +65,25 @@
       cursor: pointer;
       border-radius: 5px;
       transition: all 0.3s ease;
-  }
-  
-  .number:hover {
+    }
+    
+    .number:hover {
       background-color: var(--hover-color);
-  }
-  
-  .number.called {
+    }
+    
+    .number.called {
       background-color: var(--secondary-color);
       color: var(--background-color);
-  }
-  
-  .control-panel {
+    }
+    
+    .control-panel {
       flex: 1;
       display: flex;
       flex-direction: column;
       gap: 20px;
-  }
-  
-  #current-call {
+    }
+    
+    #current-call {
       font-size: 24px;
       font-weight: bold;
       text-align: center;
@@ -91,9 +91,9 @@
       background-color: var(--card-background);
       border-radius: 10px;
       min-height: 100px;
-  }
-  
-  button {
+    }
+    
+    button {
       background-color: var(--secondary-color);
       border: none;
       color: var(--background-color);
@@ -102,13 +102,13 @@
       font-size: 16px;
       border-radius: 5px;
       transition: all 0.3s ease;
-  }
-  
-  button:hover {
+    }
+    
+    button:hover {
       opacity: 0.9;
-  }
-  
-  input[type="number"] {
+    }
+    
+    input[type="number"] {
       padding: 10px;
       font-size: 16px;
       width: 60px;
@@ -116,111 +116,14 @@
       border: 1px solid var(--secondary-color);
       color: var(--text-color);
       border-radius: 5px;
-  }
-  
-  #print-controls {
+    }
+    
+    #print-controls {
       display: flex;
       gap: 10px;
-  }
-  
-  @media (max-width: 768px) {
-      .game-area {
-          flex-direction: column;
-      }
-      
-      #caller-board {
-          order: 2;
-      }
-      
-      .control-panel {
-          order: 1;
-      }
-  }
-  
-  @media print {
-      @page {
-          size: letter;
-          margin: 0;
-      }
-  
-      body {
-          background-color: white;
-          color: black;
-          font-family: Arial, sans-serif;
-      }
-  
-      .bingo-card {
-          page-break-after: always;
-          width: 8.5in;
-          height: 11in;
-          padding: 0.5in;
-          box-sizing: border-box;
-          display: flex;
-          flex-direction: column;
-          justify-content: center;
-          align-items: center;
-      }
-  
-      h2 {
-          font-size: 36pt;
-          margin-bottom: 15pt;
-          text-align: center;
-      }
-  
-      .bingo-grid {
-          display: grid;
-          grid-template-columns: repeat(5, 1fr);
-          grid-gap: 4pt;
-          width: 7.5in;
-          height: 7.5in;
-      }
-  
-      .bingo-header, .bingo-cell {
-          border: 1pt solid black;
-          display: flex;
-          flex-direction: column;
-          justify-content: center;
-          align-items: center;
-          text-align: center;
-          overflow: hidden;
-      }
-  
-      .bingo-header {
-          font-size: 18pt;
-          font-weight: bold;
-          background-color: #f0f0f0;
-      }
-  
-      .bingo-cell {
-          padding: 4pt;
-      }
-  
-      .number, .free {
-          font-size: 14pt;
-          font-weight: bold;
-          line-height: 1;
-          margin-bottom: 4pt;
-      }
-  
-      .phrase {
-          font-size: 10pt;
-          line-height: 1.2;
-          max-height: none;
-          overflow: visible;
-      }
-  
-      .card-id {
-          margin-top: 15pt;
-          font-size: 12pt;
-          text-align: center;
-      }
-  
-      /* Hide non-printable elements */
-      .game-area, #caller-board, .control-panel {
-          display: none;
-      }
-  }
-  .tooltip {
+    }
+    
+    .tooltip {
       position: absolute;
       background-color: rgba(51, 51, 51, 0.9);
       color: #fff;
@@ -235,116 +138,175 @@
       max-width: 200px;
       word-wrap: break-word;
       box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
-  }
-  
-  .tooltip.visible {
+    }
+    
+    .tooltip.visible {
       opacity: 1;
       transform: translateY(0);
-  }
-  
-  .number {
-      cursor: pointer;
-      transition: background-color 0.3s;
-  }
-  
-  .number:hover {
+    }
+    
+    .number:hover {
       background-color: rgba(187, 134, 252, 0.3);
-  }
-  /* Add these styles to your existing CSS file */
-
-#recent-calls {
+    }
+    
+    #recent-calls {
       margin-top: 20px;
       border-top: 1px solid var(--secondary-color);
       padding-top: 10px;
-  }
-  
-  #recent-calls h3 {
+    }
+    
+    #recent-calls h3 {
       color: var(--secondary-color);
       margin-bottom: 10px;
-  }
-  
-  #recent-calls-list {
+    }
+    
+    #recent-calls-list {
       list-style-type: none;
       padding: 0;
-      max-height: 200px;
-      overflow-y: auto;
-  }
-  
-  #recent-calls-list li {
-      margin-bottom: 5px;
-      padding: 5px;
-      background-color: var(--primary-color);
-      border-radius: 3px;
-  }
-  
-  #recent-calls-list li:nth-child(odd) {
-      background-color: var(--card-background);
-  }
-  /* Update these styles in your existing CSS file */
-
-#recent-calls {
-      margin-top: 20px;
-      border-top: 1px solid var(--secondary-color);
-      padding-top: 10px;
-  }
-  
-  #recent-calls h3 {
-      color: var(--secondary-color);
-      margin-bottom: 10px;
-  }
-  
-  #recent-calls-list {
-      list-style-type: none;
-      padding: 0;
-      max-height: 450px; /* Increased height */
+      max-height: 450px;
       overflow-y: auto;
       border: 1px solid var(--secondary-color);
       border-radius: 5px;
-  }
-  
-  #recent-calls-list li {
-      margin-bottom: 0; /* Remove bottom margin */
-      padding: 8px 10px; /* Increase padding for better readability */
+    }
+    
+    #recent-calls-list li {
+      padding: 8px 10px;
       background-color: var(--primary-color);
       border-bottom: 1px solid var(--secondary-color);
-  }
-  
-  #recent-calls-list li:last-child {
-      border-bottom: none; /* Remove border from last item */
-  }
-  
-  #recent-calls-list li:nth-child(even) {
+    }
+    
+    #recent-calls-list li:last-child {
+      border-bottom: none;
+    }
+    
+    #recent-calls-list li:nth-child(even) {
       background-color: var(--card-background);
-  }
-  
-  /* Add a scrollbar style for webkit browsers */
-  #recent-calls-list::-webkit-scrollbar {
+    }
+    
+    #recent-calls-list::-webkit-scrollbar {
       width: 8px;
-  }
-  
-  #recent-calls-list::-webkit-scrollbar-track {
+    }
+    
+    #recent-calls-list::-webkit-scrollbar-track {
       background: var(--background-color);
-  }
-  
-  #recent-calls-list::-webkit-scrollbar-thumb {
+    }
+    
+    #recent-calls-list::-webkit-scrollbar-thumb {
       background-color: var(--secondary-color);
       border-radius: 4px;
-  }
-  
-  /* Adjust the layout for better responsiveness */
-  @media (min-width: 768px) {
+    }
+    
+    @media (max-width: 768px) {
       .game-area {
-          display: flex;
-          justify-content: space-between;
+        flex-direction: column;
       }
-  
+      
       #caller-board {
-          flex: 2;
-          margin-right: 20px;
+        order: 2;
       }
-  
+      
       .control-panel {
-          flex: 1;
+        order: 1;
       }
-  }
-  
+    }
+    
+    @media (min-width: 768px) {
+      .game-area {
+        display: flex;
+        justify-content: space-between;
+      }
+    
+      #caller-board {
+        flex: 2;
+        margin-right: 20px;
+      }
+    
+      .control-panel {
+        flex: 1;
+      }
+    }
+    
+    @media print {
+      @page {
+        size: letter;
+        margin: 0;
+      }
+    
+      body {
+        background-color: white;
+        color: black;
+        font-family: Arial, sans-serif;
+      }
+    
+      .bingo-card {
+        page-break-after: always;
+        width: 8.5in;
+        height: 11in;
+        padding: 0.5in;
+        box-sizing: border-box;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+      }
+    
+      h2 {
+        font-size: 36pt;
+        margin-bottom: 15pt;
+        text-align: center;
+      }
+    
+      .bingo-grid {
+        display: grid;
+        grid-template-columns: repeat(5, 1fr);
+        grid-gap: 4pt;
+        width: 7.5in;
+        height: 7.5in;
+      }
+    
+      .bingo-header, .bingo-cell {
+        border: 1pt solid black;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        text-align: center;
+        overflow: hidden;
+      }
+    
+      .bingo-header {
+        font-size: 18pt;
+        font-weight: bold;
+        background-color: #f0f0f0;
+      }
+    
+      .bingo-cell {
+        padding: 4pt;
+      }
+    
+      .number, .free {
+        font-size: 14pt;
+        font-weight: bold;
+        line-height: 1;
+        margin-bottom: 4pt;
+      }
+    
+      .phrase {
+        font-size: 10pt;
+        line-height: 1.2;
+        max-height: none;
+        overflow: visible;
+      }
+    
+      .card-id {
+        margin-top: 15pt;
+        font-size: 12pt;
+        text-align: center;
+      }
+    
+      /* Hide non-printable elements */
+      .game-area, #caller-board, .control-panel {
+        display: none;
+      }
+    }
+    
