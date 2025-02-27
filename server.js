@@ -31,7 +31,6 @@ function generateCard() {
     return card;
 }
 
-
 // Routes
 app.get('/', (req, res) => {
     res.render('index', { bingoData: config.BINGO });
@@ -39,13 +38,12 @@ app.get('/', (req, res) => {
 
 
 // In your server.js file, update the /print route:
-
 app.get('/print', (req, res) => {
     const count = Math.min(50, parseInt(req.query.count) || 1);
     const cards = Array.from({ length: count }, (_, i) => ({ id: i + 1, card: generateCard() }));
+    console.log('Generated cards:', JSON.stringify(cards, null, 2));
     res.render('print', { cards, bingoData: config.BINGO });
 });
-
 
 app.get('/call', (req, res) => {
     const availableNumbers = Object.keys(config.BINGO)
