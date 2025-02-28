@@ -12,28 +12,27 @@
             <h2>BINGO</h2>
             <div class="bingo-grid">
                 <% ['B', 'I', 'N', 'G', 'O'].forEach(letter => { %>
-                    <div class="bingo-header"><%= letter %></div>
+                    <div class="bingo-column">
+                        <div class="bingo-header"><%= letter %></div>
+                        <% for (let i = 0; i < 5; i++) { %>
+                            <div class="bingo-cell">
+                                <% if (letter === 'N' && i === 2) { %>
+                                    <div class="free">FREE</div>
+                                <% } else { %>
+                                    <% const num = cardData.card[letter][i]; %>
+                                    <% if (num !== undefined && num !== null) { %>
+                                        <div class="number"><%= num %></div>
+                                        <% if (bingoData && bingoData[letter + num]) { %>
+                                            <div class="phrase"><%= bingoData[letter + num] %></div>
+                                        <% } %>
+                                    <% } else { %>
+                                        <div class="number">Error</div>
+                                    <% } %>
+                                <% } %>
+                            </div>
+                        <% } %>
+                    </div>
                 <% }) %>
-                <% ['B', 'I', 'N', 'G', 'O'].forEach(letter => { %>
-                  <% for (let i = 0; i < 5; i++) { %>
-                      <div class="bingo-cell">
-                          <% if (letter === 'N' && i === 2) { %>
-                              <div class="free">FREE</div>
-                          <% } else { %>
-                              <% const num = cardData.card[letter][i]; %>
-                              <% if (num !== undefined && num !== null) { %>
-                                  <div class="number"><%= num %></div>
-                                  <% if (bingoData && bingoData[letter + num]) { %>
-                                      <div class="phrase"><%= bingoData[letter + num] %></div>
-                                  <% } %>
-                              <% } else { %>
-                                  <div class="number">Error</div>
-                              <% } %>
-                          <% } %>
-                      </div>
-                  <% } %>
-              <% }) %>
-              
             </div>
             <div class="card-id">Card #<%= cardData.id %></div>
         </div>
@@ -49,7 +48,6 @@
           window.print();
           window.onafterprint = () => window.close();
       }
-  </script>
-  
+    </script>
 </body>
 </html>
