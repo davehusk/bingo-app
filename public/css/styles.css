@@ -490,3 +490,144 @@ input[type="number"] {
       text-align: center;
   }
 }
+/* General Layout */
+body {
+  font-family: Arial, sans-serif;
+  background-color: #121212;
+  color: white;
+  margin: 0;
+  padding: 0;
+}
+
+.container {
+  max-width: 1200px;
+  margin: 50px auto;
+  padding: 20px;
+  background-color: #1a1a1a;
+  border-radius: 10px;
+}
+
+h1 {
+  text-align: center;
+  color: #ffcc00;
+}
+
+/* Game Area */
+.game-area {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+}
+
+/* Bingo Caller Board */
+#caller-board {
+  display: flex;
+  flex-wrap: wrap;
+  width: 70%;
+}
+
+.column {
+  width: 20%;
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.column h2 {
+  font-size: 1.5em;
+  margin-bottom: 10px;
+}
+
+.number {
+  display: inline-block;
+  width: 50px;
+  height: 50px;
+  margin: 5px;
+  line-height: 50px;
+  border: 2px solid #333;
+  border-radius: 50%;
+  background-color: #2e2e2e;
+  color: #fff;
+  font-size: 1.2em;
+  cursor: pointer;
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+.number:hover {
+  background-color: #444;
+  color: #ffcc00;
+}
+
+/* Highlight called numbers */
+.number.called {
+  background-color: #ffcc00;
+  color: #121212;
+  border: 2px solid #ffcc00;
+}
+
+/* Control Panel */
+.control-panel {
+  width: 28%;
+  padding: 20px;
+  background-color: #2e2e2e;
+  border-radius: 10px;
+  text-align: center;
+}
+
+button {
+  background-color: #ffcc00;
+  color: #121212;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 5px;
+  font-size: 1.1em;
+  cursor: pointer;
+  margin-top: 20px;
+  transition: background-color 0.3s ease;
+}
+
+button:hover {
+  background-color: #e6b800;
+}
+
+/* Recently Called Numbers */
+#recent-calls {
+  margin-top: 30px;
+  padding-top: 10px;
+}
+
+#recent-calls h3 {
+  font-size: 1.3em;
+}
+
+#recent-calls-list {
+  list-style: none;
+  padding-left: 0;
+}
+
+#recent-calls-list li {
+  background-color: #333;
+  padding: 8px;
+  margin: 5px 0;
+  border-radius: 5px;
+  font-size: 1.1em;
+}
+
+/* Current Call */
+#current-call {
+  font-size: 1.5em;
+  font-weight: bold;
+  color: #ffcc00;
+  margin-top: 20px;
+}
+
+/* Tooltip (Optional) */
+.tooltip {
+  position: absolute;
+  background-color: #333;
+  color: #fff;
+  padding: 5px;
+  border-radius: 5px;
+  font-size: 1em;
+  display: none;
+  z-index: 10;
+}

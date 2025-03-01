@@ -6,7 +6,16 @@ const app = express();
 const port = 3000;
 
 // Parse config
-const config = ini.parse(fs.readFileSync('./config/config.ini', 'utf-8'));
+let config;
+try {
+    config = ini.parse(fs.readFileSync('./config/config.ini', 'utf-8'));
+    if (!config.BINGO) {
+        throw new Error('BINGO section missing from config.ini');
+    }
+} catch (error) {
+    console.error('Error loading config file:', error.message);
+    process.exit(1);
+}
 
 // Setup EJS
 app.set('view engine', 'ejs');
@@ -36,8 +45,7 @@ app.get('/', (req, res) => {
     res.render('index', { bingoData: config.BINGO });
 });
 
-
-// In your server.js file, update the /print route:
+// Print Bingo Cards
 app.get('/print', (req, res) => {
     const count = Math.min(50, parseInt(req.query.count) || 1);
     const cards = Array.from({ length: count }, (_, i) => ({ id: i + 1, card: generateCard() }));
@@ -45,12 +53,15 @@ app.get('/print', (req, res) => {
     res.render('print', { cards, bingoData: config.BINGO });
 });
 
+// Call Bingo Number
 app.get('/call', (req, res) => {
-    const availableNumbers = Object.keys(config.BINGO)
-        .filter(num => !req.query.called.split(',').includes(num));
+    const calledNumbers = req.query.called ? req.query.called.split(',') : [];
+    const availableNumbers = Object.keys(config.BINGO).filter(num => !calledNumbers.includes(num));
+    
     if (availableNumbers.length === 0) {
         return res.json({ done: true });
     }
+
     const number = availableNumbers[Math.floor(Math.random() * availableNumbers.length)];
     res.json({
         number: number,
