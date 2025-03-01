@@ -8,6 +8,8 @@
   --hover-color: #3c3c3c;
   --gradient-start: #7c4dff;
   --gradient-end: #3a1c71;
+  --shadow-dark: rgba(0, 0, 0, 0.7);
+  --shadow-light: rgba(255, 255, 255, 0.1);
 }
 
 @keyframes gradientBG {
@@ -31,7 +33,7 @@ body {
 }
 
 .container {
-  max-width: 1200px;
+  max-width: 1000px;
   margin: 0 auto;
 }
 
@@ -39,6 +41,8 @@ h1 {
   color: var(--secondary-color);
   text-align: center;
   margin-bottom: 20px;
+  font-size: 3rem;
+  text-shadow: 2px 2px 5px var(--shadow-dark);
 }
 
 .game-area {
@@ -62,6 +66,8 @@ h1 {
   text-align: center;
   margin-bottom: 10px;
   color: var(--secondary-color);
+  font-size: 1.5rem;
+  text-shadow: 1px 1px 3px var(--shadow-dark);
 }
 
 .number {
@@ -69,20 +75,23 @@ h1 {
   border: none;
   color: var(--text-color);
   margin: 5px 0;
-  padding: 10px 5px;
+  padding: 12px 5px;
   text-align: center;
   cursor: pointer;
-  border-radius: 5px;
+  border-radius: 12px;
   transition: all 0.3s ease;
+  box-shadow: 0 4px 8px var(--shadow-dark), 0 6px 16px var(--shadow-light);
 }
 
 .number:hover {
   background-color: rgba(187, 134, 252, 0.3);
+  box-shadow: 0 6px 12px var(--shadow-dark), 0 8px 20px var(--shadow-light);
 }
 
 .number.called {
   background-color: var(--secondary-color);
   color: var(--background-color);
+  box-shadow: 0 4px 8px var(--shadow-dark), 0 6px 16px var(--shadow-light);
 }
 
 .control-panel {
@@ -93,7 +102,7 @@ h1 {
 }
 
 #current-call {
-  font-size: 2.5rem;
+  font-size: 3rem;
   font-weight: bold;
   text-align: center;
   padding: 30px;
@@ -103,7 +112,8 @@ h1 {
   display: flex;
   align-items: center;
   justify-content: center;
-  text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+  text-shadow: 2px 2px 5px var(--shadow-dark);
+  box-shadow: 0 4px 8px var(--shadow-dark), 0 8px 24px var(--shadow-light);
 }
 
 button {
@@ -113,27 +123,29 @@ button {
   padding: 14px 28px;
   cursor: pointer;
   font-size: 16px;
-  border-radius: 8px;
+  border-radius: 12px;
   transition: all 0.3s ease;
   text-transform: uppercase;
   letter-spacing: 1px;
   font-weight: bold;
+  box-shadow: 0 4px 8px var(--shadow-dark), 0 6px 16px var(--shadow-light);
 }
 
 button:hover {
   opacity: 0.9;
-  transform: translateY(-1px);
-  box-shadow: 0 4px 15px rgba(124, 77, 255, 0.4);
+  transform: translateY(-3px);
+  box-shadow: 0 6px 12px var(--shadow-dark), 0 10px 20px var(--shadow-light);
 }
 
 input[type="number"] {
-  padding: 10px;
+  padding: 12px;
   font-size: 16px;
   width: 60px;
   background-color: var(--primary-color);
   border: 1px solid var(--secondary-color);
   color: var(--text-color);
-  border-radius: 5px;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px var(--shadow-dark), 0 6px 16px var(--shadow-light);
 }
 
 #recent-calls {
@@ -145,6 +157,7 @@ input[type="number"] {
 #recent-calls h3 {
   color: var(--secondary-color);
   margin-bottom: 10px;
+  font-size: 1.5rem;
 }
 
 #recent-calls-list {
@@ -153,13 +166,14 @@ input[type="number"] {
   max-height: 450px;
   overflow-y: auto;
   border: 1px solid var(--secondary-color);
-  border-radius: 5px;
+  border-radius: 8px;
 }
 
 #recent-calls-list li {
   padding: 8px 10px;
   background-color: var(--primary-color);
   border-bottom: 1px solid var(--secondary-color);
+  box-shadow: 0 2px 4px var(--shadow-dark);
 }
 
 #recent-calls-list li:last-child {
@@ -188,7 +202,7 @@ input[type="number"] {
   background-color: rgba(51, 51, 51, 0.9);
   color: #fff;
   padding: 8px 12px;
-  border-radius: 4px;
+  border-radius: 8px;
   font-size: 14px;
   z-index: 1000;
   pointer-events: none;
@@ -197,7 +211,7 @@ input[type="number"] {
   transform: translateY(10px);
   max-width: 200px;
   word-wrap: break-word;
-  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+  box-shadow: 0 4px 8px var(--shadow-dark);
 }
 
 .tooltip.visible {
@@ -257,6 +271,8 @@ input[type="number"] {
     flex-direction: column;
     justify-content: center;
     align-items: center;
+    box-shadow: 0 4px 8px var(--shadow-dark), 0 6px 16px var(--shadow-light);
+    border-radius: 12px;
   }
   
   h2 {
@@ -281,6 +297,8 @@ input[type="number"] {
     align-items: center;
     text-align: center;
     overflow: hidden;
+    box-shadow: 0 2px 4px var(--shadow-dark);
+    border-radius: 8px;
   }
   
   .bingo-header {
@@ -297,14 +315,14 @@ input[type="number"] {
   .number, .free {
     font-size: 24pt;
     font-weight: bold;
-    line-height: 1;
-    margin-bottom: 4pt;
+    line-height: 1.2;
+    margin-top: 4pt;
   }
   
   .phrase {
     font-size: 14pt;
-    line-height: 1.2;
-    max-height: none;
+    line-height: 1.0;
+    height: 3em;
     overflow: visible;
   }
   
@@ -318,316 +336,4 @@ input[type="number"] {
   .game-area, #caller-board, .control-panel {
     display: none;
   }
-}
-@media print {
-  .bingo-grid {
-    display: grid;
-    grid-template-columns: repeat(5, 1fr);
-    grid-gap: 4pt;
-    width: 7.5in;
-    height: 7.5in;
-  }
-  
-  .bingo-cell {
-    padding: 8pt;
-    border: 1pt solid black;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-  }
-  
-  .free {
-    font-size: 24pt;
-    font-weight: bold;
-    color: red;
-    margin: 0;
-    padding: 0;
-  }
-  
-  .number {
-    font-size: 24pt;
-    font-weight: bold;
-    line-height: 1;
-    margin-bottom: 4pt;
-  }
-  
-  .phrase {
-    font-size: 14pt;
-    line-height: 1.2;
-    max-height: none;
-    overflow: visible;
-  }
-}
-@media print {
-  .bingo-grid {
-    display: grid;
-    grid-template-columns: repeat(5, 1fr);
-    grid-template-rows: repeat(5, 1fr);
-    grid-gap: 4pt;
-    width: 7.5in;
-    height: 7.5in;
-  }
-  
-  .bingo-cell {
-    padding: 8pt;
-    border: 1pt solid black;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-  }
-}
-@media print {
-  .bingo-grid {
-    display: grid;
-    grid-template-columns: repeat(5, 1fr);
-    grid-template-rows: repeat(5, minmax(1fr, auto));
-    grid-gap: 4pt;
-    width: 7.5in;
-    height: 7.5in;
-  }
-  
-  .bingo-cell {
-    padding: 8pt;
-    border: 1pt solid black;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    overflow: visible;
-  }
-  
-  .phrase {
-    font-size: 12pt;
-    line-height: 1.4;
-    max-height: none;
-    overflow: visible;
-  }
-}
-
-@media print {
-  @page {
-      size: letter;
-      margin: 0;
-  }
-
-  body {
-      background-color: white;
-      color: black;
-      font-family: Arial, sans-serif;
-  }
-
-  .bingo-card {
-      page-break-inside: avoid;
-      width: 8.5in;
-      height: 11in;
-      padding: .5in;
-      box-sizing: border-box;
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      align-items: center;
-  }
-
-  h2 {
-      font-size: 48pt;
-      margin-bottom: 20pt;
-      text-align: center;
-  }
-
-  .bingo-grid {
-      display: flex;
-      width: 7.5in;
-      height: 7.5in;
-  }
-
-  .bingo-column {
-      flex: 1;
-      display: flex;
-      flex-direction: column;
-  }
-
-  .bingo-header, .bingo-cell {
-      border: 1pt solid black;
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      align-items: center;
-      text-align: center;
-      overflow: hidden;
-  }
-
-  .bingo-header {
-      font-size: 24pt;
-      font-weight: bold;
-      background-color: #f0f0f0;
-      padding: 8pt;
-  }
-
-  .bingo-cell {
-      flex: 1;
-      padding: 8pt;
-  }
-
-  .number, .free {
-      font-size: 24pt;
-      font-weight: bold;
-      line-height: 1;
-      margin-bottom: 4pt;
-  }
-
-  .phrase {
-      font-size: 12pt;
-      line-height: 1.2;
-      max-height: none;
-      overflow: visible;
-  }
-
-  .card-id {
-      margin-top: 20pt;
-      font-size: 18pt;
-      text-align: center;
-  }
-}
-/* General Layout */
-body {
-  font-family: Arial, sans-serif;
-  background-color: #121212;
-  color: white;
-  margin: 0;
-  padding: 0;
-}
-
-.container {
-  max-width: 1200px;
-  margin: 50px auto;
-  padding: 20px;
-  background-color: #1a1a1a;
-  border-radius: 10px;
-}
-
-h1 {
-  text-align: center;
-  color: #ffcc00;
-}
-
-/* Game Area */
-.game-area {
-  display: flex;
-  justify-content: space-between;
-  align-items: flex-start;
-}
-
-/* Bingo Caller Board */
-#caller-board {
-  display: flex;
-  flex-wrap: wrap;
-  width: 70%;
-}
-
-.column {
-  width: 20%;
-  text-align: center;
-  margin-bottom: 20px;
-}
-
-.column h2 {
-  font-size: 1.5em;
-  margin-bottom: 10px;
-}
-
-.number {
-  display: inline-block;
-  width: 50px;
-  height: 50px;
-  margin: 5px;
-  line-height: 50px;
-  border: 2px solid #333;
-  border-radius: 50%;
-  background-color: #2e2e2e;
-  color: #fff;
-  font-size: 1.2em;
-  cursor: pointer;
-  transition: background-color 0.3s ease, color 0.3s ease;
-}
-
-.number:hover {
-  background-color: #444;
-  color: #ffcc00;
-}
-
-/* Highlight called numbers */
-.number.called {
-  background-color: #ffcc00;
-  color: #121212;
-  border: 2px solid #ffcc00;
-}
-
-/* Control Panel */
-.control-panel {
-  width: 28%;
-  padding: 20px;
-  background-color: #2e2e2e;
-  border-radius: 10px;
-  text-align: center;
-}
-
-button {
-  background-color: #ffcc00;
-  color: #121212;
-  padding: 10px 20px;
-  border: none;
-  border-radius: 5px;
-  font-size: 1.1em;
-  cursor: pointer;
-  margin-top: 20px;
-  transition: background-color 0.3s ease;
-}
-
-button:hover {
-  background-color: #e6b800;
-}
-
-/* Recently Called Numbers */
-#recent-calls {
-  margin-top: 30px;
-  padding-top: 10px;
-}
-
-#recent-calls h3 {
-  font-size: 1.3em;
-}
-
-#recent-calls-list {
-  list-style: none;
-  padding-left: 0;
-}
-
-#recent-calls-list li {
-  background-color: #333;
-  padding: 8px;
-  margin: 5px 0;
-  border-radius: 5px;
-  font-size: 1.1em;
-}
-
-/* Current Call */
-#current-call {
-  font-size: 1.5em;
-  font-weight: bold;
-  color: #ffcc00;
-  margin-top: 20px;
-}
-
-/* Tooltip (Optional) */
-.tooltip {
-  position: absolute;
-  background-color: #333;
-  color: #fff;
-  padding: 5px;
-  border-radius: 5px;
-  font-size: 1em;
-  display: none;
-  z-index: 10;
 }
