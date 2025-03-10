@@ -12,6 +12,8 @@ A fun and interactive Bingo Caller application for hosting your own Bingo games!
 ## 🖼️ Demo
 
 ### Screen
+![Bingo Caller](BingoCaller.png)
+![Bingo Card (print)](BingoCard.png)
 ![Demo of Bingo Caller](demo.gif)
 
 ## 🛠️ Installation
