@@ -34,7 +34,7 @@ body {
 
 .container {
   max-width: 1000px;
-  margin: 0 auto;
+  margin: 20 auto;
 }
 
 h1 {
@@ -289,7 +289,7 @@ input[type="number"] {
     height: 7.5in;
   }
   
-  .bingo-header, .bingo-cell {
+  .bingo-header, .bingo-cell, .free {
     border: 1pt solid black;
     display: flex;
     flex-direction: column;
@@ -327,13 +327,18 @@ input[type="number"] {
   }
   
   .card-id {
-    margin-top: 40pt;
-    font-size: 18pt;
+    margin: 40pt;
+    font-size: 1pt;
     text-align: center;
   }
   
   /* Hide non-printable elements */
   .game-area, #caller-board, .control-panel {
     display: none;
+  }
+
+  .free {
+    margin-top: 33pt;
+    margin-bottom: 33pt;
   }
 }
