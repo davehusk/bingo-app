@@ -5,6 +5,15 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Bingo Caller</title>
     <link rel="stylesheet" href="/css/styles.css">
+
+    <!-- Open Graph meta tags -->
+    <meta property="og:title" content="<%= ogData ? ogData.title : 'Bingo Caller' %>">
+    <meta property="og:description" content="<%= ogData ? ogData.description : 'Play Bingo online with our interactive Bingo Caller' %>">
+    <meta property="og:image" content="<%= ogData ? ogData.image : 'https://cdn.glitch.global/9fa2504c-0c88-4af2-b08f-7825b48980dc/image.png?v=1743348006318' %>">
+    <meta property="og:url" content="<%= ogData ? ogData.url : 'https://bingo-caller.glitch.me/' %>">
+    <meta property="og:type" content="<%= ogData ? ogData.type : 'website' %>">
+    <meta property="og:site_name" content="Bingo Caller">
+    <meta property="og:locale" content="en_US">    
 </head>
 <body>
     <div class="container">

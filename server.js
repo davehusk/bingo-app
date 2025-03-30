@@ -22,7 +22,28 @@ app.set('view engine', 'ejs');
 app.set('views', path.join(__dirname, 'views'));
 
 // Serve static files
-app.use(express.static('public'));
+app.use(express.static('public', {
+    setHeaders: (res, path) => {
+      if (path.endsWith('.js')) {
+        res.setHeader('Content-Type', 'application/javascript');
+      }
+    }
+  }));
+app.use(express.urlencoded({ extended: true }));
+app.use(express.json());
+
+// Generate Open Graph data
+function generateOgData(req, pageType = 'home') {
+    const baseUrl = "https://bingo-caller.glitch.me";
+    return {
+        title: "Bingo Caller",
+        description: "Play Bingo online with our interactive Bingo Caller",
+        image: "https://cdn.glitch.global/9fa2504c-0c88-4af2-b08f-7825b48980dc/image.png?v=1743348006318",
+        url: baseUrl,
+        type: "website"
+    };
+}
+
 
 // Generate a bingo card
 function generateCard() {
@@ -42,16 +63,22 @@ function generateCard() {
 
 // Routes
 app.get('/', (req, res) => {
-    res.render('index', { bingoData: config.BINGO });
+    const ogData = generateOgData(req);
+    res.render('index', { 
+        bingoData: config.BINGO,
+        ogData: ogData
+    });
 });
+
 
 // Print Bingo Cards
 app.get('/print', (req, res) => {
     const count = Math.min(1000, parseInt(req.query.count) || 1);
     const cards = Array.from({ length: count }, (_, i) => ({ id: i + 1, card: generateCard() }));
-    console.log('Generated cards:', JSON.stringify(cards, null, 2));
-    res.render('print', { cards, bingoData: config.BINGO });
+    const ogData = generateOgData(req, 'print');
+    res.render('print', { cards, bingoData: config.BINGO, ogData });
 });
+
 
 // Call Bingo Number
 app.get('/call', (req, res) => {
