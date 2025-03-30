@@ -47,7 +47,7 @@ app.get('/', (req, res) => {
 
 // Print Bingo Cards
 app.get('/print', (req, res) => {
-    const count = Math.min(100, parseInt(req.query.count) || 1);
+    const count = Math.min(1000, parseInt(req.query.count) || 1);
     const cards = Array.from({ length: count }, (_, i) => ({ id: i + 1, card: generateCard() }));
     console.log('Generated cards:', JSON.stringify(cards, null, 2));
     res.render('print', { cards, bingoData: config.BINGO });
